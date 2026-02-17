@@ -1,0 +1,1 @@
+export const PATHURL = 'https://wafi.iit.cnr.it/openervm/api/';
