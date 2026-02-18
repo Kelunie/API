@@ -1,62 +1,60 @@
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  ScrollView,
+  FlatList,
+  SafeAreaView,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
+  View,
 } from "react-native";
 import axios from "axios";
-import { PATHURL } from "./config/config";
+import { PATHCiudades } from "./config/config";
 
-export default function PlacesScreen({ navigation }) {
-  const [lugares, setLugares] = useState([]);
-  const [loading, setLoading] = useState(true);
+const PlacesScreen = (props) => {
+  const nav = props.navigation;
+  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchPlaces = async () => {
-      try {
-        const response = await axios.get(`${PATHURL}getPlacesStatistics`);
-        const data = response.data;
-
-        const arr = Object.entries(data).map(([name, stats]) => ({
+  const Obtener = () => {
+    try {
+      axios.get(PATHCiudades).then((response) => {
+        const json = response.data;
+        const arr = Object.entries(json).map(([name, stats]) => ({
           name,
           ...stats,
         }));
+        setData(arr);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-        setLugares(arr);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlaces();
+  useEffect(() => {
+    Obtener();
   }, []);
 
-  if (loading) {
-    return (
-      <View style={{ flex:1, justifyContent:"center", alignItems:"center" }}>
-        <ActivityIndicator size="large" />
-        <Text>Cargando...</Text>
-      </View>
-    );
-  }
+  const onPressViewPlace = (lugar) => {
+    nav.navigate("CityDetail", { ciudad: lugar });
+  };
 
   return (
-    <ScrollView>
-      {lugares.map((lugar, idx) => (
-        <TouchableOpacity
-          key={idx}
-          style={{ padding: 20, borderBottomWidth: 1 }}
-          onPress={() =>
-            navigation.navigate("CityDetail", { ciudad: lugar })
-          }
-        >
-          <Text style={{ fontSize: 18 }}>{lugar.name}</Text>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <SafeAreaView>
+      <FlatList
+        data={data}
+        keyExtractor={({ name }, index) => name}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            key={item.name}
+            style={{ padding: 20, borderBottomWidth: 1 }}
+            onPress={() => onPressViewPlace(item)}
+          >
+            <View>
+              <Text style={{ fontSize: 18 }}>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+    </SafeAreaView>
   );
-}
+};
+
+export default PlacesScreen;

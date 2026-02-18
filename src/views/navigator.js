@@ -1,11 +1,10 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import PlacesScreen from "./views/places";
-import CityDetail from "./views/CityDetail";
-import SearchScreen from "./views/search";
+import PlacesScreen from "../components/places";
+import CityDetail from "./CityDetail";
+import SearchScreen from "./search";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -29,25 +28,23 @@ function PlacesStack() {
 
 export default function Navigator() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: "#007AFF",
-          tabBarInactiveTintColor: "#888",
-        }}
-      >
-        <Tab.Screen
-          name="Places"
-          component={PlacesStack}
-          options={{ tabBarLabel: "Lugares" }}
-        />
-        <Tab.Screen
-          name="Search"
-          component={SearchScreen}
-          options={{ tabBarLabel: "Buscar" }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#007AFF",
+        tabBarInactiveTintColor: "#888",
+      }}
+    >
+      <Tab.Screen
+        name="Places"
+        component={PlacesStack}
+        options={{ tabBarLabel: "Lugares" }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{ tabBarLabel: "Buscar" }}
+      />
+    </Tab.Navigator>
   );
 }

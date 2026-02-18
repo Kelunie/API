@@ -1,1 +1,2 @@
-export const PATHURL = 'https://wafi.iit.cnr.it/openervm/api/';
+export const PATHCiudades =
+  "http://wafi.iit.cnr.it/openervm/api/getPlacesStatistics";
