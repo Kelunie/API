@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { style_01 } from "../styles/style_01";
 
-export default function CityDetail({ route }) {
+export default function CityDetail({ route, navigation }) {
   const { ciudad } = route.params;
 
   const items = [
@@ -10,30 +10,42 @@ export default function CityDetail({ route }) {
       icon: require("../img/iconos/hotel.png"),
       label: "Accommodation",
       value: ciudad.accommodation,
+      apiCategory: "accommodation",
     },
     {
       icon: require("../img/iconos/attraction.png"),
       label: "Attraction",
       value: ciudad.attraction,
+      apiCategory: "attraction",
     },
     {
       icon: require("../img/iconos/POI.png"),
       label: "POI",
       value: ciudad.poi,
+      apiCategory: "poi",
     },
     {
       icon: require("../img/iconos/food-tray_3073820.png"),
       label: "Restaurant",
       value: ciudad.restaurant,
+      apiCategory: "restaurant",
     },
   ];
 
-  const CardItem = ({ icon, label, value }) => (
-    <View style={style_01.cardItem}>
+  const onPressCategory = (item) => {
+    navigation.navigate("CategoryPlaces", {
+      cityName: ciudad.name,
+      categoryLabel: item.label,
+      category: item.apiCategory,
+    });
+  };
+
+  const CardItem = ({ icon, label, value, onPress }) => (
+    <TouchableOpacity style={style_01.cardItem} onPress={onPress}>
       <Image source={icon} style={style_01.cardIcon} />
       <Text style={style_01.cardLabel}>{label}</Text>
       <Text style={style_01.cardValue}>{value}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -48,6 +60,7 @@ export default function CityDetail({ route }) {
             icon={item.icon}
             label={item.label}
             value={item.value}
+            onPress={() => onPressCategory(item)}
           />
         ))}
       </View>

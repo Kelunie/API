@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import PlacesScreen from "../components/places";
 import CityDetail from "./CityDetail";
+import CategoryPlaces from "./CategoryPlaces";
+import PlaceInfo from "./PlaceInfo";
 import SearchScreen from "./search";
 
 const Tab = createBottomTabNavigator();
@@ -21,6 +23,16 @@ function PlacesStack() {
         name="CityDetail"
         component={CityDetail}
         options={{ title: "Detalle" }}
+      />
+      <Stack.Screen
+        name="CategoryPlaces"
+        component={CategoryPlaces}
+        options={{ title: "Lugares" }}
+      />
+      <Stack.Screen
+        name="PlaceInfo"
+        component={PlaceInfo}
+        options={{ title: "Detalle del lugar" }}
       />
     </Stack.Navigator>
   );
