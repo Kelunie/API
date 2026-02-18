@@ -1,19 +1,56 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
+import { style_01 } from "../styles/style_01";
 
 export default function CityDetail({ route }) {
   const { ciudad } = route.params;
 
-  return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 26, fontWeight: "bold" }}>
-        {ciudad.name}
-      </Text>
+  const items = [
+    {
+      icon: require("../img/iconos/hotel.png"),
+      label: "Accommodation",
+      value: ciudad.accommodation,
+    },
+    {
+      icon: require("../img/iconos/attraction.png"),
+      label: "Attraction",
+      value: ciudad.attraction,
+    },
+    {
+      icon: require("../img/iconos/POI.png"),
+      label: "POI",
+      value: ciudad.poi,
+    },
+    {
+      icon: require("../img/iconos/food-tray_3073820.png"),
+      label: "Restaurant",
+      value: ciudad.restaurant,
+    },
+  ];
 
-      <Text>Accommodation: {ciudad.accommodation}</Text>
-      <Text>Attraction: {ciudad.attraction}</Text>
-      <Text>POI: {ciudad.poi}</Text>
-      <Text>Restaurant: {ciudad.restaurant}</Text>
+  const CardItem = ({ icon, label, value }) => (
+    <View style={style_01.cardItem}>
+      <Image source={icon} style={style_01.cardIcon} />
+      <Text style={style_01.cardLabel}>{label}</Text>
+      <Text style={style_01.cardValue}>{value}</Text>
     </View>
+  );
+
+  return (
+    <ScrollView style={{ padding: 20 }}>
+      {/* Título centrado */}
+      <Text style={style_01.cityTitle}>{ciudad.name}</Text>
+
+      <View style={style_01.listContainer}>
+        {items.map((item) => (
+          <CardItem
+            key={item.label}
+            icon={item.icon}
+            label={item.label}
+            value={item.value}
+          />
+        ))}
+      </View>
+    </ScrollView>
   );
 }
