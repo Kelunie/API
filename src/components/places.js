@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import axios from "axios";
 import { PATHCiudades } from "./config/config";
 

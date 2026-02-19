@@ -1,12 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import PlacesScreen from "../components/places";
 import CityDetail from "./CityDetail";
 import CategoryPlaces from "./CategoryPlaces";
 import PlaceInfo from "./PlaceInfo";
 import SearchScreen from "./search";
+import FavoritesScreen from "./FavoritesScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -50,12 +52,32 @@ export default function Navigator() {
       <Tab.Screen
         name="Places"
         component={PlacesStack}
-        options={{ tabBarLabel: "Lugares" }}
+        options={{
+          tabBarLabel: "Lugares",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="place" color={color} size={size} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Search"
         component={SearchScreen}
-        options={{ tabBarLabel: "Buscar" }}
+        options={{
+          tabBarLabel: "Buscar",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="search" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          tabBarLabel: "Favorites Places",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="favorite" color={color} size={size} />
+          ),
+        }}
       />
     </Tab.Navigator>
   );

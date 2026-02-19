@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   ActivityIndicator,
   FlatList,
-  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
