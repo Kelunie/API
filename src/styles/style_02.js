@@ -80,4 +80,40 @@ export const style_02 = StyleSheet.create({
     marginTop: 8,
     marginBottom: 24,
   },
+  searchContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
+  },
+  searchLabel: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 6,
+    marginTop: 8,
+  },
+  pickerWrapper: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    backgroundColor: "#fff",
+  },
+  searchButton: {
+    marginTop: 12,
+    backgroundColor: "#007AFF",
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  searchButtonText: {
+    color: "#fff",
+    fontWeight: "700",
+  },
 });
