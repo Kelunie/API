@@ -116,4 +116,28 @@ export const style_02 = StyleSheet.create({
     color: "#fff",
     fontWeight: "700",
   },
+  saveFavoriteButton: {
+    marginTop: 12,
+    backgroundColor: "#007AFF",
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  saveFavoriteButtonText: {
+    color: "#fff",
+    fontWeight: "700",
+  },
+  removeFavoriteButton: {
+    marginTop: 10,
+    alignSelf: "flex-start",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#d9534f",
+  },
+  removeFavoriteButtonText: {
+    color: "#d9534f",
+    fontWeight: "600",
+  },
 });

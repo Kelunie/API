@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Linking, ScrollView, Text, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  Linking,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import axios from "axios";
+import NativeLocalStorage from "../../localStorage/NativeLocalStorage";
 import { PATHPlaceDetails } from "../components/config/config";
 import { style_02 } from "../styles/style_02";
+
+const FAVORITES_STORAGE_KEY = "@favorites_places";
 
 export default function PlaceInfo({ route }) {
   const { placeId, cityName, categoryLabel } = route.params;
   const [detail, setDetail] = useState({});
+  const [isSaved, setIsSaved] = useState(false);
 
   const Obtener = async () => {
     try {
@@ -26,6 +36,23 @@ export default function PlaceInfo({ route }) {
   useEffect(() => {
     Obtener();
   }, []);
+
+  const loadSavedState = async () => {
+    try {
+      const stored = await NativeLocalStorage.getItem(FAVORITES_STORAGE_KEY);
+      const favorites = stored ? JSON.parse(stored) : [];
+      const exists = favorites.some(
+        (item) => String(item.placeId) === String(placeId),
+      );
+      setIsSaved(exists);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadSavedState();
+  }, [placeId]);
 
   const getDescription = () => {
     if (!detail.description) return "No disponible";
@@ -57,6 +84,42 @@ export default function PlaceInfo({ route }) {
     const canOpen = await Linking.canOpenURL(url);
     if (canOpen) {
       await Linking.openURL(url);
+    }
+  };
+
+  const onPressSaveFavorite = async () => {
+    try {
+      const stored = await NativeLocalStorage.getItem(FAVORITES_STORAGE_KEY);
+      const favorites = stored ? JSON.parse(stored) : [];
+
+      const favoriteItem = {
+        placeId,
+        name: detail.name || "Sin nombre",
+        cityName,
+        categoryLabel,
+        address: detail.address || "Dirección no disponible",
+        openingHours,
+        phone,
+        email: email || "No disponible",
+        website: website || "No disponible",
+        savedAt: new Date().toISOString(),
+      };
+
+      const updatedFavorites = [
+        favoriteItem,
+        ...favorites.filter((item) => String(item.placeId) !== String(placeId)),
+      ];
+
+      await NativeLocalStorage.setItem(
+        JSON.stringify(updatedFavorites),
+        FAVORITES_STORAGE_KEY,
+      );
+
+      setIsSaved(true);
+      Alert.alert("Favoritos", "Lugar guardado correctamente");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Favoritos", "No se pudo guardar el lugar");
     }
   };
 
@@ -127,6 +190,15 @@ export default function PlaceInfo({ route }) {
       ) : (
         <Text style={style_02.bottomText}>Mapa: No disponible</Text>
       )}
+
+      <TouchableOpacity
+        style={style_02.saveFavoriteButton}
+        onPress={onPressSaveFavorite}
+      >
+        <Text style={style_02.saveFavoriteButtonText}>
+          {isSaved ? "Actualizado en favoritos" : "Agregar a favoritos"}
+        </Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
